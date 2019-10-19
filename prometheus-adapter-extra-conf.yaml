@@ -1,0 +1,9 @@
+rules:
+- seriesQuery: '{__name__="edge_server_request_rate_for_30",pod!="",namespace!=""}'
+  resources:
+    template: <<.Resource>>
+  metricsQuery: sum(<<.Series>>{<<.LabelMatchers>>}) by (<<.GroupBy>>)
+- seriesQuery: '{__name__="edge_server_latency_for_30",pod!="",namespace!=""}'
+  resources:
+    template: <<.Resource>>
+  metricsQuery: <<.Series>>{<<.LabelMatchers>>}

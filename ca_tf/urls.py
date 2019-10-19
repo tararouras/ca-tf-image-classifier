@@ -19,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
      url(r'^admin/', admin.site.urls),
      url(r'^ca_tf/', include('api.urls')),
+     url('', include('django_prometheus.urls')),
 ]

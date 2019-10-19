@@ -1,0 +1,27 @@
+FROM ubuntu:18.04
+
+WORKDIR /tmp
+
+RUN apt update && \
+    apt install -yq --no-install-recommends \
+        python \
+        python-pip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN pip install \
+    setuptools \
+    wheel
+
+COPY ./edge_server_client_requirements.txt .
+
+RUN pip install -r edge_server_client_requirements.txt
+
+COPY client_scenarios/post.py client_scenarios/post.py
+
+COPY images/ images/
+
+ENV IMAGES_PATH="/tmp/images/"
+
+COPY client_scenarios/post-with-input.py client_scenarios/post-with-input.py
+
+ENTRYPOINT python client_scenarios/post-with-input.py

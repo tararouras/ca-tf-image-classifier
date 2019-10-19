@@ -152,9 +152,9 @@ class FileUploadView(APIView):
             # Loads label file, strips off carriage return
             label_lines = [line.rstrip() for line
                            # path file of retrained_labels
-            in tf.gfile.GFile(filename+"/retrained_labels")]
+            in tf.gfile.GFile("/artifacts/retrained_labels")]
             # Unpersists graph from file
-            with tf.gfile.FastGFile(filename+"/retrained_graph.pb", 'rb') as f:
+            with tf.gfile.FastGFile("/artifacts/retrained_graph.pb", 'rb') as f:
 
                 # Unpersists graph from file
                 graph_def = tf.GraphDef()
@@ -207,10 +207,10 @@ class FileUploadView(APIView):
                 f.finished = finished + 1
                 total_time = f.total_time
                 f.total_time = total_time + duration
-                
+
                 transmission_time = f.transmission_time
                 computation_time = f.computation_time
-                f.transmission_time = transmission_time + duration - (end_time-start_process_time) 
+                f.transmission_time = transmission_time + duration - (end_time-start_process_time)
                 f.computation_time = computation_time + end_time - start_process_time
                 #print duration
                 #print (end_time - start_process_time)
@@ -243,16 +243,16 @@ class FileUploadView(APIView):
 #
  #               transmission_time = f.transmission_time
  #               computation_time = f.computation_time
- #               f.transmission_time = transmission_time + duration - (end_time-start_process_time) 
+ #               f.transmission_time = transmission_time + duration - (end_time-start_process_time)
   #              f.computation_time = computation_time + end_time - start_process_time
    #             try:
    #                 f.save()
     #            except OperationalError:
      #               print("DB locked: concurrency avoided")
-                
+
 
         return Response(round(temp_list[0][1], 5))
 
 
 
-            
+

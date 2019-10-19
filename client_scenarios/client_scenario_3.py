@@ -11,7 +11,7 @@ import os
 MINUTE = 60
 
 def main():
-    
+
     # initially sleep for a (uniformly) random time between 0 and 6 seconds
     # time.sleep(random.randint(0,6))
 
@@ -25,7 +25,7 @@ def main():
         pts = datetime.datetime.now().strftime('%s')
         json = {"size" : size, "start_time" : pts}
         subprocess.call(["curl", "-s", "-X", \
-                "POST", "-F", "file=@../images/"+img+";type=image/jpeg", "http://10.0.0.50:8000/ca_tf/imageUpload/"+img])
+                "POST", "-F", "file=@../images/"+img+";type=image/jpeg", "http://127.0.0.1:8000/ca_tf/imageUpload/"+img])
 
     second_start_time = time.time()
 
@@ -37,7 +37,7 @@ def main():
         pts = datetime.datetime.now().strftime('%s')
         json = {"size" : size, "start_time" : pts}
         subprocess.call(["curl", "-s", "-X", \
-                "POST", "-F", "file=@../images/"+img+";type=image/jpeg", "http://10.0.0.50:8000/ca_tf/imageUpload/"+img])
+                "POST", "-F", "file=@../images/"+img+";type=image/jpeg", "http://127.0.0.1:8000/ca_tf/imageUpload/"+img])
 
 if __name__ == "__main__":
     main()

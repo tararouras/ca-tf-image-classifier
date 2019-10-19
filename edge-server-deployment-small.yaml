@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge-server-tf
+  labels:
+    app: edge-server-tf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: edge-server-tf
+  template:
+    metadata:
+      labels:
+        app: edge-server-tf
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - k-node1
+                - k-node2
+                - k-node3
+      containers:
+      - image: edge-server-tf:latest
+        name: edge-server-tf
+        livenessProbe:
+          httpGet:
+            path: /ca_tf/getStatus/GetStatus
+            port: 8000
+          initialDelaySeconds: 6
+          periodSeconds: 3
+        resources:
+          limits:
+            cpu: "1015m"
+          requests:
+            cpu: "507m"
+        env:
+        - name: EDGE_SERVER_PORT
+          value: '8000'
+        ports:
+        - name: es-port
+          containerPort: 8000
+        imagePullPolicy: Never
+        volumeMounts:
+        - mountPath: /tmp/workdir
+          name: cache-volume
+      volumes:
+      - name: cache-volume
+        emptyDir: {}
